@@ -5,7 +5,7 @@ import org.apache.spark.sql
 import org.apache.spark.sql.functions.regexp_extract //Extract only package
 import org.apache.spark.sql.functions.regexp_replace //Import replace package
 import org.apache.spark.sql.functions.{col,desc,coalesce} //Import coalesce package
-import org.apache.spark.sql.functions.{when, col}
+import org.apache.spark.sql.functions.{when}
 
 
 // COMMAND ----------
