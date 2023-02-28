@@ -1,10 +1,10 @@
 // Databricks notebook source
 // DBTITLE 1,Importing the packages
-import org.apache.log4j.Logger
+import org.apache.log4j.Logger //Imporing the logger package
 import org.apache.spark.sql
-import org.apache.spark.sql.functions.regexp_extract
-import org.apache.spark.sql.functions.regexp_replace
-import org.apache.spark.sql.functions.{col,desc,coalesce}
+import org.apache.spark.sql.functions.regexp_extract //Extract only package
+import org.apache.spark.sql.functions.regexp_replace //Import replace package
+import org.apache.spark.sql.functions.{col,desc,coalesce} //Import coalesce package
 import org.apache.spark.sql.functions.{when, col}
 
 
@@ -100,14 +100,14 @@ display(df_dis)
 // COMMAND ----------
 
 // DBTITLE 1,Get integer only from dataframe
-val myColumnNumericDF = df.select(regexp_extract(col("emp_length"), "\\d+", 0).alias("emp_length_clean"),col("emp_length"))
+val myColumnNumericDF = df.select(regexp_extract(col("emp_length"), "\\d+", 0).alias("emp_length_clean"),col("emp_length")) // \\d+ for integer only  
 myColumnNumericDF.show(10)
 
 // COMMAND ----------
 
 val def_sel = show
-  .withColumn("term_cleaned", regexp_replace(col("term"), "months", ""))
-  .withColumn("emplen_cleaned", regexp_extract(col("emp_length"), "\\d+", 0))
+  .withColumn("term_cleaned", regexp_replace(col("term"), "months", "")) //replace months with blank space
+  .withColumn("emplen_cleaned", regexp_extract(col("emp_length"), "\\d+", 0)) //extract only ineteger values
 display(def_sel)
 
 // COMMAND ----------
@@ -189,7 +189,7 @@ def_sel.describe("dti","revol_util").show()
 
 // DBTITLE 1,Cleaning the data
 val result = spark.sql("SELECT CEIL(REGEXP_REPLACE(revol_util, '%', '')), COUNT(*) FROM loanstatus_sel GROUP BY CEIL(REGEXP_REPLACE(revol_util, '%', ''))")
-result.show()
+result.show() //replace % with blank space 
 
 // COMMAND ----------
 
