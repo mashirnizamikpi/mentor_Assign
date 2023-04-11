@@ -1,19 +1,12 @@
 package local
 
-import org.apache.spark.sql.SparkSession;
-import java.util.Properties;
+import org.apache.spark.sql.{DataFrame, SparkSession}
+import java.util.Properties
 
 object DataSourceJDBCDemo {
 
-  def main(args: Array[String]){
-
+  def readJdbcTable(schemaName: String, tableName: String, userName: String, pass: String): DataFrame = {
     val spark = SparkSession.builder().appName("SparkJDBCDemo").master("local[1]").getOrCreate()
-
-
-    val schemaName = "kpi"
-    val tableName ="employee"
-    val userName = "root"
-    val pass = "root"
 
     val jdbcUrl = s"jdbc:mysql://localhost:3306/${schemaName}"
     val connectionProperties = new Properties()
@@ -24,9 +17,17 @@ object DataSourceJDBCDemo {
     val mySqlDF = spark.read.jdbc(jdbcUrl, tableName, connectionProperties)
 
     mySqlDF.printSchema()
-
     mySqlDF.show()
 
+    mySqlDF
+  }
 
+  def main(args: Array[String]): Unit = {
+    val schemaName = "kpi"
+    val tableName ="employee"
+    val userName = "root"
+    val pass = "root"
+
+    val mySqlDF = readJdbcTable(schemaName, tableName, userName, pass)
   }
 }
